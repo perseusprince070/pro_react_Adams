@@ -1,9 +1,17 @@
-function myFunc(name) {
-    let myLocalVar = "sunny"
-    let innerFunction = function () {
-        return ("Hello " + name + ". Today is " + myLocalVar + ".")
+const myData = {
+    name: "Bob",
+    location: {
+        city: "Paris",
+        country: "France"
+    },
+    employment: {
+        title: "Manager",
+        dept: "Sales"
     }
-    return innerFunction()
 }
 
-console.log(myFunc("Adam"))
+function printDetails({ name, location: { city }, employment: { title }}) {
+    console.log(`Name: ${name}, City: ${city}, Role: ${title}`)
+}
+
+printDetails(myData)
