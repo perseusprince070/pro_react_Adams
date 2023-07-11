@@ -1,17 +1,10 @@
-const myData = {
-    name: "Bob",
-    location: {
-        city: "Paris",
-        country: "France"
-    },
-    employment: {
-        title: "Manager",
-        dept: "Sales"
-    }
+import { asyncAdd } from "./async"
+
+let values = [10, 20, 30, 40, 50]
+
+async function doTask() {
+    let total = await asyncAdd(values)
+    console.log(`Main Total: ${total}`)
 }
 
-function printDetails({ name, location: { city }, employment: { title }}) {
-    console.log(`Name: ${name}, City: ${city}, Role: ${title}`)
-}
-
-printDetails(myData)
+doTask()
