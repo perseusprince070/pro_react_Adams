@@ -14,7 +14,7 @@ const mapDispatchToProps = {
 }
 
 const filterProducts = (products = [], category) =>
-    (!category || category === "All") ? products : products.filter(p => p.category.toLowerCase() === category.toLoweCase())
+    (!category || category === "All") ? products : products.filter(p => p.category.toLowerCase() === category.toLowerCase())
 
 export const ShopConnector = connect(mapStateToProps, mapDispatchToProps)(
     class extends Component {
