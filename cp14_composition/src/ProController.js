@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import { ProFeature } from "./ProFeature";
 
 export function ProController(FeatureComponent) {
+
     const ProtectedFeature = ProFeature(FeatureComponent);
 
     return class extends Component {
+        
         constructor(props) {
             super(props);
             this.state = {

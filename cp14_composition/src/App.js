@@ -2,12 +2,13 @@ import React, { Component } from "react";
 // import { Message } from "./Message";
 // import { ActionButton } from "./ActionButton";
 // import { ThemeSelector } from "./ThemeSelector";
-import { GeneralList } from "./GeneralList";
+// import { GeneralList } from "./GeneralList";
 import { SortedList } from "./SortedList";
 // import { ProFeature } from "./ProFeature";
 // import { ProController } from "./ProController";
 // import { LogToConsole } from "./LogToConsole";
 import { ProModeContext } from "./ProModeContext";
+import { ProModeToggle } from "./ProModeToggle";
 
 // const ProList = ProController(LogToConsole(SortedList, "Sorted", true, true, true));
 
@@ -21,7 +22,12 @@ export default class App extends Component {
             cities: ["London", "New York", "Paris", "Milan", "Boston"],
             // proMode: false
             proContextData: {
-                proMode: false
+                proMode: false,
+                toggleProMode: this.toggleProMode
+            },
+            superProContextData: {
+                proMode: false,
+                toggleProMode: this.toggleSuperMode
             }
         }
     }
@@ -29,6 +35,12 @@ export default class App extends Component {
     toggleProMode = () => {
         this.setState(
             state => state.proContextData.proMode = !state.proContextData.proMode
+        )
+    }
+
+    toggleSuperMode = () => {
+        this.setState(
+            state => state.superProContextData.proMode = !state.superProContextData.proMode
         )
     }
 
@@ -42,20 +54,26 @@ export default class App extends Component {
         return (
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-12 text-center p-2">
-                        <div className="form-check">
-                            <input type="checkbox" className="form-check-input" value={ this.state.proContextData.proMode } onChange={ this.toggleProMode } />
-                            <label className="form-check-label">Pro Mode</label>
-                        </div>
+                    <div className="col-6 text-center p-2">
+                        <ProModeContext.Provider value={ this.state.proContextData }>
+                            <ProModeToggle label="Pro Mode" />
+                        </ProModeContext.Provider>
+                    </div>
+                    <div className="col-6 text-center p-2">
+                        <ProModeContext.Provider value={ this.state.superProContextData }>
+                            <ProModeToggle label="Super Pro Mode" />
+                        </ProModeContext.Provider>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-6">
-                        <GeneralList list={ this.state.names } theme="primary" />
-                    </div>
-                    <div className="col-6">
                         <ProModeContext.Provider value={ this.state.proContextData }>
                             <SortedList list={ this.state.names } />
+                        </ProModeContext.Provider>
+                    </div>
+                    <div className="col-6">
+                        <ProModeContext.Provider value={ this.state.superProContextData }>
+                            <SortedList list={ this.state.cities } />
                         </ProModeContext.Provider>
                     </div>
                 </div>

@@ -12,7 +12,6 @@ export function LogToConsole(FeatureComponent, label, logMount, logRender, logUn
             if (logUnmount) {
                 console.log(`${ label }: unmount`)
             }
-            return <FeatureComponent { ...this.props } />
         }
 
         render() {
