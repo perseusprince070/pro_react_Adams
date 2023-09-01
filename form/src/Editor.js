@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { FormValidator } from "./FormValidator";
 import { ValidationMessage } from "./ValidationMessage";
+import { ValidateForm } from "./wholeFormValidation";
 
 export class Editor extends Component {
 
@@ -8,53 +9,58 @@ export class Editor extends Component {
         super(props);
         this.state = {
             name: "Bob",
-            // flavor: "Vanilla",
-            // toppings: ["Strawberries"]
-            // twoScoops: false
-            order: ""
+            email: "",
+            // order: ""
+            // terms: false
+            emailConfirm: ""
         }
         
-        this.flavors = ["Chocolate", "Double Chocolate", "Triple Chocolate", "Vanilla"]
-        this.toppings = ["Sprinkles", "Fudge Sauce", "Strawberries", "Maple Syrup"]
+        this.rules = {
+            name: { required: true, minlength: 3, alpha: true },
+            // email: { required: true, email: true },
+            // order: { required: true }
+            // terms: { true: true }
+            email: { required: true, email: true, equals: "emailConfirm" },
+            emailConfirm: { required: true, email: true, equals: "email" }
+        }
     }
 
     updateFormValue = (event) => {
         this.setState(
-            { [event.target.name]: event.target.value },
-            () => this.props.submit(this.state)
+            { [event.target.name]: event.target.value }
         )
     }
 
-    // updateFormValueOptions = (event) => {
-    //     let options = [...event.target.options].filter(o => o.selected).map(o => o.value)
-    //     this.setState(
-    //         { [event.target.name]: options },
-    //         () => this.props.submit(this.state)
-    //     )
-    // }
-
-    // updateFormValueCheck = (event) => {
-    //     event.persist();
-    //     this.setState(state => {
-    //         if (event.target.checked) {
-    //             state.toppings.push(event.target.name);
-    //         } else {
-    //             let index = state.toppings.indexOf(event.target.name)
-    //             state.toppings.splice(index, 1)
-    //         }
-    //     }, () => this.props.submit(this.state))
-    // }
+    updateFormValueCheck = (event) => {
+        this.setState({
+            [event.target.name]: event.target.checked
+        })
+    }
 
     render() {
         return <div className="h5 bg-info text-white p-2">
-            <div className="form-group">
-                <label>Name</label>
-                <input className="form-control" name="name" value={ this.state.name } onChange={ this.updateFormValue } />
-            </div>
-            <div className="form-group">
-                <label>Order</label>
-                <textarea className="form-control" name="order" value={ this.state.order } onChange={ this.updateFormValue } />
-            </div>
+            <FormValidator data={ this.state } rules={ this.rules } submit={ this.props.submit } validateForm={ ValidateForm }>
+
+                <ValidationMessage field="form" />
+                
+                <div className="form-group">
+                    <label>Name</label>
+                    <input className="form-control" name="name" value={ this.state.name } onChange={ this.updateFormValue } />
+                    <ValidationMessage field="name" />
+                </div>
+
+                <div className="form-group">
+                    <label>Email</label>
+                    <input className="form-control" name="email" value={ this.state.email } onChange={ this.updateFormValue } />
+                    <ValidationMessage field="email" />
+                </div>
+
+                <div className="form-group">
+                    <label>Confirm Email</label>
+                    <input className="form-control" name="emailConfirm" value={ this.state.emailConfirm } onChange={ this.updateFormValue } />
+                    <ValidationMessage field="emailConfirm" />
+                </div>
+            </FormValidator>
         </div>
     }
 }
